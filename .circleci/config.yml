@@ -69,19 +69,42 @@ jobs:
 
   test-frontend:
     docker:
-      # Docker image here
+      # Docker image that supports NodeJS
+      - image: circleci/node:13.8.0
     steps:
-      # Checkout code from git
-      # Restore from cache
-      # Your job code here
+      - checkout
+      - restore_cache:
+          keys: [frontend-build-cache]
+      - run:
+          name: Test frontend
+          command: |
+            cd ./frontend
+            npm i
+            npm run test
+      - slack/notify:
+          branch_pattern: .+
+          event: fail
+          channel: $SLACK_DEFAULT_CHANNEL
+          template: basic_fail_1
                 
   test-backend:
     docker:
-      # Docker image here
+      # Docker image that supports NodeJS
+      - image: circleci/node:13.8.0
     steps:
-      # Checkout code from git
-      # Restore from cache
-      # Your job code here
+      - checkout
+      - restore_cache:
+          keys: [backend-build-cache]
+      - run:
+          name: Test backend
+          command: |
+            cd ./backend
+            npm run test
+      - slack/notify:
+          branch_pattern: .+
+          event: fail
+          channel: $SLACK_DEFAULT_CHANNEL
+          template: basic_fail_1
             
 #   scan-frontend:
 #     docker:
