@@ -94,6 +94,7 @@ jobs:
           name: Test backend
           command: |
             cd ./backend
+            npm i
             npm run test
             
 #   scan-frontend:
