@@ -81,11 +81,6 @@ jobs:
             cd ./frontend
             npm i
             npm run test
-      - slack/notify:
-          branch_pattern: .+
-          event: fail
-          channel: $SLACK_DEFAULT_CHANNEL
-          template: basic_fail_1
                 
   test-backend:
     docker:
@@ -100,11 +95,6 @@ jobs:
           command: |
             cd ./backend
             npm run test
-      - slack/notify:
-          branch_pattern: .+
-          event: fail
-          channel: $SLACK_DEFAULT_CHANNEL
-          template: basic_fail_1
             
 #   scan-frontend:
 #     docker:
