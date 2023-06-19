@@ -2,8 +2,6 @@ version: 2.1
 
 orbs:
   slack: circleci/slack@4.2.0
-commands:
-
 
 commands:
   notify_on_failure:
@@ -342,7 +340,7 @@ workflows:
             - test-backend
             - scan-frontend
             - scan-frontend
-            
+
       # - deploy-infrastructure:
       #     requires: [test-frontend, test-backend, scan-frontend, scan-backend]
       #     filters:
