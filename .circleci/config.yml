@@ -237,6 +237,7 @@ jobs:
       - destroy-environment:
           id: ${CIRCLE_WORKFLOW_ID:0:7}
 
+
   configure-infrastructure:
     docker:
       - image: python:3.7-alpine3.11
@@ -244,7 +245,7 @@ jobs:
       - checkout
       - add_ssh_keys:
           fingerprints:
-          - "71:1a:a4:0a:b5:d1:b9:8a:e3:09:fb:be:36:b3:9d:91"
+          - "f7:b2:19:44:28:c9:5f:30:49:49:a1:f6:c0:ef:4f:f1"
       - run:
           name: Install dependencies
           command: |
