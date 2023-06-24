@@ -237,47 +237,24 @@ jobs:
       - destroy-environment:
           id: ${CIRCLE_WORKFLOW_ID:0:7}
 
-
   configure-infrastructure:
     docker:
-      - image: python:3.7-alpine3.11
+      - image: cimg/base:stable
     steps:
       - checkout
+      - install_awscli
+      - install_ansible   
       - add_ssh_keys:
-          fingerprints:
-          - "f7:b2:19:44:28:c9:5f:30:49:49:a1:f6:c0:ef:4f:f1"
-      - run:
-          name: Install dependencies
-          command: |
-            apk add --update ansible
+          fingerprints: ["f7:b2:19:44:28:c9:5f:30:49:49:a1:f6:c0:ef:4f:f1"]
       - attach_workspace:
           at: ~/
       - run:
-          name: Configure variable
-          command: |
-            echo ENVIRONMENT=production > backend/.env
-            echo TYPEORM_CONNECTION=$TYPEORM_CONNECTION >> backend/.env
-            echo TYPEORM_DATABASE=$TYPEORM_DATABASE >> backend/.env
-            echo TYPEORM_ENTITIES=$TYPEORM_ENTITIES >> backend/.env
-            echo TYPEORM_HOST=$TYPEORM_HOST >> backend/.env
-            echo TYPEORM_MIGRATIONS=$TYPEORM_MIGRATIONS >> backend/.env
-            echo TYPEORM_MIGRATIONS_DIR=$TYPEORM_MIGRATIONS_DIR >> backend/.env
-            echo TYPEORM_PASSWORD=$TYPEORM_PASSWORD >> backend/.env
-            echo TYPEORM_PORT=$TYPEORM_PORT >> backend/.env
-            echo TYPEORM_USERNAME=$TYPEORM_USERNAME >> backend/.env
-            cat backend/.env
-      - run:
           name: Configure server
-          working_directory: ./.circleci/ansible
           command: |
+            cd .circleci/ansible
             cat inventory.txt
-            ansible-playbook -i inventory.txt configure-server.yml -vv
-      - persist_to_workspace:
-          root: ~/
-          paths:
-            - project/backend
-      - destroy-environment:
-          id: ${CIRCLE_WORKFLOW_ID:0:7}
+            ansible-playbook -i inventory.txt configure-server.yml
+      - destroy-environment
 
   run-migrations:
     docker:
