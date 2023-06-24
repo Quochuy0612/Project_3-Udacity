@@ -2,6 +2,16 @@ version: 2.1
 orbs:
   slack: circleci/slack@4.9.3
 commands:
+  install_awscli:
+    description: Install AWS CLI v2
+    steps:
+      - run:
+          name: Install AWS CLI v2
+          command: |
+            curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+            unzip awscliv2.zip
+            sudo ./aws/install
+
   install_ansible:
     description: Install Ansible
     steps:
@@ -230,7 +240,7 @@ jobs:
       - install_awscli
       - install_ansible   
       - add_ssh_keys:
-          fingerprints: ["f7:b2:19:44:28:c9:5f:30:49:49:a1:f6:c0:ef:4f:f1"]
+          fingerprints: ["71:1a:a4:0a:b5:d1:b9:8a:e3:09:fb:be:36:b3:9d:91"]
       - attach_workspace:
           at: ~/
       - run:
