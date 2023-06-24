@@ -407,10 +407,13 @@ jobs:
       - run:
           name: Backend smoke test.
           command: |
-            export BACKEND_URL=$(curl --insecure https://kvdb.io/VavzKW56D9fhHgeCDgUVaW/backendurl)
-            echo $BACKEND_URL
-            curl "$BACKEND_URL:3030/api/status"
-            if curl "$BACKEND_URL:3030/api/status" | grep "ok"
+            BACKEND_PUBLIC_IP=$(aws ec2 describe-instances \
+              --filters "Name=tag:Name,Values=backend-<IDENTIFIER>" \
+              --query 'Reservations[*].Instances[*].PublicIpAddress' \
+              --output text)
+
+            export API_URL=http://${BACKEND_PUBLIC_IP}:3030
+            if curl -s $API_URL/api/status" | grep "ok"
             then
               return 0
             else
@@ -419,8 +422,7 @@ jobs:
       - run:
           name: Frontend smoke test.
           command: |
-            URL="http://udapeople-${CIRCLE_WORKFLOW_ID:0:7}.s3-website-us-east-1.amazonaws.com/#/employees"
-            echo $URL
+            URL="http://udapeople-${CIRCLE_WORKFLOW_ID:0:7}.s3-website-us-east-1.amazonaws.com"
             if curl -s ${URL} | grep "Welcome"
             then
               return 0
