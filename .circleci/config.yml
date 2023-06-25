@@ -339,7 +339,7 @@ jobs:
       - run:
           name: Get backend url and setup environment variables
           command: |
-            BACKEND_IP=$$(curl --insecure https://kvdb.io/VavzKW56D9fhHgeCDgUVaW/backendpublicurl)
+            BACKEND_IP=$(curl --insecure https://kvdb.io/VavzKW56D9fhHgeCDgUVaW/backendpublicurl)
             export API_URL="http://${BACKEND_IP}:3030"
             echo "${API_URL}"
             echo ENVIRONMENT=production > "frontend/.env"
