@@ -410,25 +410,19 @@ jobs:
 
   smoke-test:
     docker:
-      - image: alpine:latest
+      - image: python:3.7-alpine3.11
     steps:
       - checkout
-      - attach_workspace:
-          at: .
       - run:
           name: Install dependencies
           command: |
-            apk --no-cache add curl
-            apk add --update npm
-            apk add --no-cache python3 py3-pip \
-              && pip3 install --upgrade pip \
-              && pip install awscli
-      - create-dotenv-file
+            apk add --update curl
+            pip install awscli
       - run:
           name: Backend smoke test.
           command: |
-            BACKEND_URL=$(curl --insecure https://kvdb.io/VavzKW56D9fhHgeCDgUVaW/backendpublicurl)
-
+            export BACKEND_URL=$(curl --insecure https://kvdb.io/VavzKW56D9fhHgeCDgUVaW/backendpublicurl)
+            echo $BACKEND_URL
             export API_URL="http://${BACKEND_URL}:3030"
             echo "${API_URL}"
             if curl -s "${API_URL}/api/status" | grep "ok"
@@ -441,19 +435,20 @@ jobs:
       - run:
           name: Frontend smoke test.
           command: |
-            URL="http://udapeople-${CIRCLE_WORKFLOW_ID:0:7}.s3-website-us-east-1.amazonaws.com/#/employees"            
+            URL="http://udapeople-${CIRCLE_WORKFLOW_ID:0:7}.s3-website-${AWS_DEFAULT_REGION}.amazonaws.com/#/employees"            
             echo ${URL} 
             if curl -s ${URL} | grep "Welcome"
             then
-              # Change this to 0 after the job fails
               return 1
             else
               return 1
             fi
       - destroy-environment:
           id: ${CIRCLE_WORKFLOW_ID:0:7}
+          when: on_fail
       - revert-migrations:
           id: ${CIRCLE_WORKFLOW_ID:0:7}
+          when: on_fail
 
 #   cloudfront-update:
 #     docker:
