@@ -233,6 +233,9 @@ jobs:
           name: Configure server
           command: |
             echo ENVIRONMENT=production > backend/.env
+            echo AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID >> backend/.env
+            echo AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY >> backend/.env
+            echo AWS_SESSION_TOKEN=$AWS_SESSION_TOKEN >> backend/.env
             echo TYPEORM_CONNECTION=$TYPEORM_CONNECTION >> backend/.env
             echo TYPEORM_DATABASE=$TYPEORM_DATABASE >> backend/.env
             echo TYPEORM_ENTITIES=$TYPEORM_ENTITIES >> backend/.env
