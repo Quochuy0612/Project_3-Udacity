@@ -399,14 +399,14 @@ jobs:
                --filters "Name=tag:Name,Values=backend-${CIRCLE_WORKFLOW_ID:0:7}" \
                --query 'Reservations[*].Instances[*].PublicIpAddress' \
                --output text)
-            echo $BACKEND_PUBLIC_IP >> .circleci/ansible/inventory.ini
-            cat .circleci/ansible/inventory.ini
+            echo $BACKEND_PUBLIC_IP >> .circleci/ansible/inventory.txt
+            cat .circleci/ansible/inventory.txt
             cd backend
             npm install
             npm run build
             cd ..
             export ANSIBLE_HOST_KEY_CHECKING=False
-            ansible-playbook -i .circleci/ansible/inventory.ini .circleci/ansible/deploy-backend.yml -vvv
+            ansible-playbook -i .circleci/ansible/inventory.txt .circleci/ansible/deploy-backend.yml -vvv
 
   smoke-test:
     docker:
