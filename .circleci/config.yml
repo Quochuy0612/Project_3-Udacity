@@ -96,7 +96,7 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          keys: [frontend-build-cache]
+          keys: [frontend-build]
       - run:
           name: Test frontend
           command: |
@@ -115,7 +115,7 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          keys: [backend-build-cache]
+          keys: [backend-build]
       - run:
           name: Test backend
           command: |
@@ -134,7 +134,7 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          keys: [frontend-build-cache]
+          keys: [frontend-build]
       - run:
           name: Scan frontend
           command: |
@@ -155,7 +155,7 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          keys: [backend-build-cache]
+          keys: [backend-build]
       - run:
           name: Scan backend
           command: |
@@ -296,7 +296,7 @@ jobs:
           command: |
             apk add --update --no-cache tar gzip nodejs npm aws-cli
       - restore_cache:
-          keys: [frontend-build-cache]
+          keys: [frontend-build]
       - run:
           name: Get backend url and setup environment variables
           command: |
@@ -334,7 +334,7 @@ jobs:
           command: |
             apk add --update --no-cache tar gzip nodejs npm aws-cli ansible
       - restore_cache:
-          keys: [backend-build-cache]
+          keys: [backend-build]
       - attach_workspace:
           at: ~/
       - run:
