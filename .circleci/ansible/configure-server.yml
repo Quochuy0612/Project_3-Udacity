@@ -5,7 +5,7 @@
   become: yes
   become_method: sudo
   become_user: root  
-  gather_facts: yes
+  gather_facts: false
   vars:
     - ansible_python_interpreter: /usr/bin/python3
     - ansible_host_key_checking: false
@@ -26,7 +26,7 @@
   roles:
     - configure-server
     - configure-prometheus-node-exporter
-    
+
   environment:
     - TYPEORM_CONNECTION: "{{ lookup('env', 'TYPEORM_CONNECTION')}}"
     - TYPEORM_ENTITIES: "{{ lookup('env', 'TYPEORM_ENTITIES')}}"
