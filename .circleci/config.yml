@@ -172,7 +172,7 @@ jobs:
           paths:
             - project/.circleci/ansible/inventory.ini
       - destroy-environment:
-          id: ${CIRCLE_WORKFLOW_ID:0:7}
+          workflow_id: ${CIRCLE_WORKFLOW_ID:0:7}
 
   configure-infrastructure:
     docker:
@@ -214,7 +214,7 @@ jobs:
           paths:
             - project/backend
       - destroy-environment:
-          id: ${CIRCLE_WORKFLOW_ID:0:7}
+          workflow_id: ${CIRCLE_WORKFLOW_ID:0:7}
 
   run-migrations:
     docker:
