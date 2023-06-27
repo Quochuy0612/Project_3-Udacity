@@ -1,35 +1,33 @@
----
-- name: 'update and upgrade packages.'
-  become: yes
-  apt:
-    upgrade: yes
-    update_cache: yes
-    cache_valid_time: 86400
-- name: remove unneeded deps
-  become: yes
-  apt:
-    autoremove: yes
-- name: install deps
-  become: yes
-  apt:
-    name: ['nodejs', 'npm']
-    state: latest
-    update_cache: yes
-- name: install pm2
-  become: yes
-  npm:
-    name: pm2
-    global: yes
-    state: latest
-    production: yes
-- name: extract artifact
-  become: yes
-  unarchive:
-    src: files/artifact.tar.gz
-    dest: .
+- name: "Create deploy directory"
+  file:
+    path: "~/webapp"
+    state: "directory"
+    mode: 0755
 
-- name: start app
-  become: yes
+- name: "Create logs directory"
+  file:
+    path: "~/logs"
+    state: "directory"
+    mode: 0755
+  
+- name: "copy backend artifact zip file to server"
+  copy:
+    src: "artifact.tar.gz"
+    dest: "~/"
+
+- name: "Unzip backend artifact"
+  unarchive:
+    remote_src: yes
+    src: "~/artifact.tar.gz"
+    dest: "~/webapp"
+
+- name: "start backend server"
   shell: |
-    pm2 delete all
-    pm2 start npm -- start
+    . ~/.profile
+    echo $TYPEORM_ENTITIES > ~/logs/environments
+    cd webapp
+    pm2 stop default
+    pm2 delete default
+    env PATH=$PATH:/usr/bin /usr/lib/node_modules/pm2/bin/pm2 startup systemd -u ubuntu --hp /home/ubuntu
+    pm2 start npm --name "udapeople" -- start
+    pm2 save
