@@ -1,24 +1,25 @@
 ---
-- name: 'update and upgrade packages.' # sudo apt upgrade
-  become: yes
+- name: "Update apt packages"
+  become: true
   apt:
-    upgrade: yes
     update_cache: yes
-    cache_valid_time: 86400
-- name: remove unneeded deps # sudo apt autoremove
-  become: yes
+
+- name: "Remove dependencies that are no longer required"
+  become: true
   apt:
     autoremove: yes
-- name: install deps # sudo apt install nodejs npm
-  become: yes
+
+- name: "Install npm and nodejs"
+  become: true
   apt:
-    name: ['nodejs', 'npm']
+    name: ["npm", "nodejs"]
     state: latest
     update_cache: yes
-- name: install pm2 # sudo npm install pm2 -g
-  become: yes
+
+- name: "Install pm2"
+  become: true
   npm:
     name: pm2
     global: yes
-    state: latest
     production: yes
+    state: present
