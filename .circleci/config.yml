@@ -247,7 +247,7 @@ jobs:
       - checkout
       - add_ssh_keys:
           fingerprints:
-            - 'f7:b2:19:44:28:c9:5f:30:49:49:a1:f6:c0:ef:4f:f1'
+            - '0e:34:5d:41:f8:44:a2:1c:f4:44:7a:f8:78:5a:d5:9d'
       - run:
           name: Install dependencies
           command: |
@@ -353,7 +353,7 @@ jobs:
       - install_ansible
       - install_nodejs
       - add_ssh_keys:
-          fingerprints: ["f7:b2:19:44:28:c9:5f:30:49:49:a1:f6:c0:ef:4f:f1"]
+          fingerprints: ["0e:34:5d:41:f8:44:a2:1c:f4:44:7a:f8:78:5a:d5:9d"]
       - attach_workspace:
           at: ~/
       - restore_cache:
@@ -469,14 +469,14 @@ workflows:
               only: [main]
       - configure-infrastructure:
           requires: [deploy-infrastructure]
-      - run-migrations:
-          requires: [configure-infrastructure]
-      - deploy-frontend:
-          requires: [run-migrations]
-      - deploy-backend:
-          requires: [run-migrations]
-      - smoke-test:
-          requires: [deploy-backend, deploy-frontend]
+      # - run-migrations:
+      #     requires: [configure-infrastructure]
+      # - deploy-frontend:
+      #     requires: [run-migrations]
+      # - deploy-backend:
+      #     requires: [run-migrations]
+      # - smoke-test:
+      #     requires: [deploy-backend, deploy-frontend]
       # - cloudfront-update:
       #     requires: [smoke-test]
       # - cleanup:
