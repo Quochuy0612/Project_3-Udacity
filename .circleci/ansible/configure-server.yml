@@ -21,11 +21,6 @@
       become: true
       raw: test -e /usr/bin/python3 || (apt -y update && apt install -y python3)
       changed_when: false
-      
-    - name: Update local apt repository
-      become: true
-      apt:
-        update_cache: yes
 
   environment:
     - NODE_ENV: production
