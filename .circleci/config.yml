@@ -243,7 +243,7 @@ jobs:
 
   configure-infrastructure:
     docker:
-      - image: circleci/base:stable
+      - image: cimg/base:stable
     steps:
       - checkout
       - install_awscli
