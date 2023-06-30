@@ -342,7 +342,7 @@ jobs:
                                
   deploy-backend:
     docker:
-      - image: circleci/base:stable
+      - image: cimg/base:stable
     steps:
       - checkout
       - install_awscli
@@ -386,7 +386,7 @@ jobs:
 
   smoke-test:
     docker:
-      - image: circleci/base:stable
+      - image: cimg/base:stable
     steps:
       - checkout
       - install_awscli
