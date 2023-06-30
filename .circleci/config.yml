@@ -252,11 +252,11 @@ jobs:
           fingerprints: [0e:34:5d:41:f8:44:a2:1c:f4:44:7a:f8:78:5a:d5:9d]
       - attach_workspace:
           at: ./workspace
-      - run:
-          name: Install dependencies
-          command: |
-            apk add --update ansible
-            python -m pip install awscli
+      # - run:
+      #     name: Install dependencies
+      #     command: |
+      #       apk add --update ansible
+      #       python -m pip install awscli
       - run:
           name: Configure server
           command: |
